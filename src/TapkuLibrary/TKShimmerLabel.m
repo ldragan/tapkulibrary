@@ -33,7 +33,7 @@
 
 @implementation TKShimmerLabel
 
-- (id) initWithFrame:(CGRect)frame{
+- (instancetype) initWithFrame:(CGRect)frame{
     if (!(self = [super initWithFrame:frame])) return nil;
 		
 	self.textAlignment = NSTextAlignmentCenter;
@@ -65,14 +65,14 @@
 - (NSNumber*) _animationStartPoint{
 	CGFloat x = CGRectGetWidth(self.textHighlightLayer.frame)/2.0f;
 	if(self.direction == TKShimmerLabelDirectionLeftToRight)
-		return @(-x + self.frame.size.width);
+		return @(-x + CGRectGetWidth(self.frame));
 	return @(x);
 }
 - (NSNumber*) _animationEndPoint{
 	CGFloat x = CGRectGetWidth(self.textHighlightLayer.frame)/2.0f;
 	if(self.direction == TKShimmerLabelDirectionLeftToRight)
 		return @(x);
-	return @(-x + self.frame.size.width);
+	return @(-x + CGRectGetWidth(self.frame));
 }
 - (void) _startShimmerAnimation{
 	if(!self.superview) return;
