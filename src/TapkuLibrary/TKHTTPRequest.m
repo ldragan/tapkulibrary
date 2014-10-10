@@ -33,6 +33,9 @@
 #import "TKNetworkQueue.h"
 #import "NSObject+TKCategory.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 
 typedef enum TKOperationState {
     TKOperationStateInited = 1, 
@@ -180,12 +183,8 @@ static inline NSString * TKKeyPathFromOperationState(TKOperationState state) {
 	[self performSelectorOnMainThread:@selector(_requestStarted) withObject:nil waitUntilDone:[NSThread isMainThread]];
 }
 - (void) _requestStarted{
-	if(self.delegate && [self.delegate respondsToSelector:self.didStartSelector]) {
-        // see: http://stackoverflow.com/a/20058585/297472
-//		[self.delegate performSelector:self.didStartSelector withObject:self];
-        SEL selector = NSSelectorFromString(@"didStartSelector");
-        ((void (*)(id, SEL))[self.delegate methodForSelector:selector])(self.delegate, selector);
-    }
+	if(self.delegate && [self.delegate respondsToSelector:self.didStartSelector])
+		[self.delegate performSelector:self.didStartSelector withObject:self];
 	
 #if NS_BLOCKS_AVAILABLE
 	if(self.startedBlock) self.startedBlock();
@@ -243,12 +242,8 @@ static inline NSString * TKKeyPathFromOperationState(TKOperationState state) {
 }
 - (void) _requestFinished{
 
-	if(self.delegate && [self.delegate respondsToSelector:self.didFinishSelector]) {
-        // see http://stackoverflow.com/a/20058585/297472
-//		[self.delegate performSelector:self.didFinishSelector withObject:self];
-        SEL selector = NSSelectorFromString(@"didFinishSelector");
-        ((void (*)(id, SEL))[self.delegate methodForSelector:selector])(self.delegate, selector);
-    }
+	if(self.delegate && [self.delegate respondsToSelector:self.didFinishSelector]) 
+		[self.delegate performSelector:self.didFinishSelector withObject:self];
 
 #if NS_BLOCKS_AVAILABLE
 	if(self.finishedBlock) self.finishedBlock();
@@ -274,12 +269,7 @@ static inline NSString * TKKeyPathFromOperationState(TKOperationState state) {
 	
 }
 - (void) _requestFailed{
-	if(self.delegate && [self.delegate respondsToSelector:self.didFailSelector]) {
-        // see http://stackoverflow.com/a/20058585/297472
-//        [self.delegate performSelector:self.didFailSelector withObject:self];
-        SEL selector = NSSelectorFromString(@"didFailSelector");
-        ((void (*)(id, SEL))[self.delegate methodForSelector:selector])(self.delegate, selector);
-    }
+	if(self.delegate && [self.delegate respondsToSelector:self.didFailSelector]) [self.delegate performSelector:self.didFailSelector withObject:self];
 #if NS_BLOCKS_AVAILABLE
 	if(self.failedBlock) self.failedBlock();
 	
@@ -580,3 +570,5 @@ static inline NSString * TKKeyPathFromOperationState(TKOperationState state) {
 }
 
 @end
+
+#pragma clang diagnostic pop

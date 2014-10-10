@@ -29,6 +29,13 @@
  
  */
 
+// SCC ADDED - not in our control and TOO MANY WARNINGS
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wimplicit-retain-self"
+#pragma clang diagnostic ignored "-Wuninitialized"
+
+
+
 #import "TKImageCache.h"
 #import "TKNetworkQueue.h"
 #import "TKHTTPRequest.h"
@@ -392,3 +399,6 @@
 
 
 @end
+
+#pragma clang diagnostic pop
+

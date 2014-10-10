@@ -550,7 +550,8 @@ static UIImage *tileImage;
 	if(day == selectedDay && selectedPortion == portion) return;
 	
 	
-	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 	if(portion == 1){
 		selectedDay = day;
 		selectedPortion = portion;
@@ -561,6 +562,7 @@ static UIImage *tileImage;
 		selectedDay = day;
 		selectedPortion = portion;
 	}
+#pragma clang diagnostic pop
 	
 }
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
