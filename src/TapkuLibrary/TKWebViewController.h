@@ -36,6 +36,9 @@
 /** This class creates a `UIViewController` with a basic `UIWebView` as the focal point view. */
 @interface TKWebViewController : UIViewController <UIWebViewDelegate>
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
 
 /** Initializes a web vew controller that will load the given `NSURL` object.
  @param URL A `NSURL` object that will loaded by the `UIWebView`.

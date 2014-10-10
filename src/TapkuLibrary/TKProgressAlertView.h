@@ -37,6 +37,10 @@
 /** A simple alert view with a progress view. */
 @interface TKProgressAlertView : TKAlertViewController
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
+
 /** Initializes a progress alert view with a title.
  @param title The title of the progress alert.
  @return A newly create progress alert view.

@@ -94,6 +94,10 @@ typedef enum _TKNetworkErrorType {
  */
 + (instancetype) requestWithURL:(NSURL *)URL JSONResponseHandler:(TKJSONResponseBlock)responseHandler;
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
+
 /** Returns a newly initialized request with a URL. 
  @param URL The URL for the new request.
  @return The newly created request object.

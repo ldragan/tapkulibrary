@@ -45,6 +45,9 @@
  */
 @interface TKTableViewController : TKViewController <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchDisplayDelegate>
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
 
 /** Initializes a table-view controller to manage a table view of a given style.
  @param style A constant that specifies the style of table view that the controller object is to manage (`UITableViewStylePlain` or `UITableViewStyleGrouped`).

@@ -180,8 +180,12 @@ static inline NSString * TKKeyPathFromOperationState(TKOperationState state) {
 	[self performSelectorOnMainThread:@selector(_requestStarted) withObject:nil waitUntilDone:[NSThread isMainThread]];
 }
 - (void) _requestStarted{
-	if(self.delegate && [self.delegate respondsToSelector:self.didStartSelector])
-		[self.delegate performSelector:self.didStartSelector withObject:self];
+	if(self.delegate && [self.delegate respondsToSelector:self.didStartSelector]) {
+        // see: http://stackoverflow.com/a/20058585/297472
+//		[self.delegate performSelector:self.didStartSelector withObject:self];
+        SEL selector = NSSelectorFromString(@"didStartSelector");
+        ((void (*)(id, SEL))[self.delegate methodForSelector:selector])(self.delegate, selector);
+    }
 	
 #if NS_BLOCKS_AVAILABLE
 	if(self.startedBlock) self.startedBlock();
@@ -239,8 +243,12 @@ static inline NSString * TKKeyPathFromOperationState(TKOperationState state) {
 }
 - (void) _requestFinished{
 
-	if(self.delegate && [self.delegate respondsToSelector:self.didFinishSelector]) 
-		[self.delegate performSelector:self.didFinishSelector withObject:self];
+	if(self.delegate && [self.delegate respondsToSelector:self.didFinishSelector]) {
+        // see http://stackoverflow.com/a/20058585/297472
+//		[self.delegate performSelector:self.didFinishSelector withObject:self];
+        SEL selector = NSSelectorFromString(@"didFinishSelector");
+        ((void (*)(id, SEL))[self.delegate methodForSelector:selector])(self.delegate, selector);
+    }
 
 #if NS_BLOCKS_AVAILABLE
 	if(self.finishedBlock) self.finishedBlock();
@@ -266,7 +274,12 @@ static inline NSString * TKKeyPathFromOperationState(TKOperationState state) {
 	
 }
 - (void) _requestFailed{
-	if(self.delegate && [self.delegate respondsToSelector:self.didFailSelector]) [self.delegate performSelector:self.didFailSelector withObject:self];
+	if(self.delegate && [self.delegate respondsToSelector:self.didFailSelector]) {
+        // see http://stackoverflow.com/a/20058585/297472
+//        [self.delegate performSelector:self.didFailSelector withObject:self];
+        SEL selector = NSSelectorFromString(@"didFailSelector");
+        ((void (*)(id, SEL))[self.delegate methodForSelector:selector])(self.delegate, selector);
+    }
 #if NS_BLOCKS_AVAILABLE
 	if(self.failedBlock) self.failedBlock();
 	
@@ -351,7 +364,7 @@ static inline NSString * TKKeyPathFromOperationState(TKOperationState state) {
 	if(self.progressDelegate){
 		dispatch_async(dispatch_get_main_queue(), ^{
 			if([self.progressDelegate respondsToSelector:@selector(request:didReceiveTotalBytes:ofExpectedBytes:)])
-				[self.progressDelegate request:self didReceiveTotalBytes:_receivedDataBytes ofExpectedBytes:_totalExpectedImageSize];
+				[self.progressDelegate request:self didReceiveTotalBytes:self->_receivedDataBytes ofExpectedBytes:self->_totalExpectedImageSize];
 		});
 	}
 	

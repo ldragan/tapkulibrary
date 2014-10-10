@@ -43,6 +43,10 @@ typedef NS_ENUM(NSInteger, TKProgressBarViewStyle) {
 	float _progress,_displayProgress;
 }
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
+
 /**
  Initialize a progress bar.
  @param style The style of the progress bar.

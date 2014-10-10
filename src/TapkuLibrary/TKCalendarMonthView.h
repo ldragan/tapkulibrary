@@ -45,6 +45,9 @@
  */
 - (instancetype) initWithTimeZone:(NSTimeZone*)timeZone; // or Monday
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
 
 /** Initialize a Calendar Month Grid.
  @param sunday Flag to setup the grid with Monday or Sunday as the leftmost day.

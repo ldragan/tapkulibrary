@@ -46,6 +46,10 @@
  */
 - (instancetype) init;
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
+
 /** Initialize a new image cache object.
  @param cacheDirectoryName The name of the folder to place cached images to disk.
  @return A new created `TKImageCache` object.

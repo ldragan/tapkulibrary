@@ -65,6 +65,10 @@ typedef NS_ENUM(NSInteger, TKEmptyViewImage) {
 /// @name Initializing a TKEmptyView Object
 ///-------------------------
 
+#ifndef NS_DESIGNATED_INITIALIZER
+#define NS_DESIGNATED_INITIALIZER
+#endif
+
 /** Initializes an empty view with an image that will be stylized.
  
  @param frame The frame of the `UIView`.
