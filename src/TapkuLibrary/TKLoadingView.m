@@ -55,7 +55,13 @@
 - (void) layoutSubviews{
 	[super layoutSubviews];
 	NSString *str = [NSString stringWithFormat:@"%@...",NSLocalizedString(@"Loading", @"Loading")];
+    
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+	CGSize size = [str sizeWithAttributes:@{NSFontAttributeName:self.loadingLabel.font}];
+#else
 	CGSize size = [str sizeWithFont:self.loadingLabel.font];
+#endif
+    
 	CGFloat wid = CGRectGetWidth(self.frame), hei = CGRectGetHeight(self.frame);
 	NSInteger x = (wid-size.width) / 2, y = (hei-size.height) / 2;
 	CGRect frame = CGRectMake(x, y, size.width, size.height);

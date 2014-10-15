@@ -288,20 +288,33 @@ static UIImage *tileImage;
 	
 	CGContextSetPatternPhase(context, CGSizeMake(r.origin.x, r.origin.y - 2));
 
-	
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    
+    [str drawInRect:r withAttributes:@{NSFontAttributeName:f1,
+                                       NSParagraphStyleAttributeName:paragraphStyle}];
+#else
 	[str drawInRect: r
 		   withFont: f1
 	  lineBreakMode: NSLineBreakByWordWrapping
 		  alignment: NSTextAlignmentCenter];
-	
+#endif
+
 	if(mark){
 		r.size.height = 10;
 		r.origin.y += 19;
 		
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000        
+        [str drawInRect:r withAttributes:@{NSFontAttributeName:f2,
+                                           NSParagraphStyleAttributeName:paragraphStyle}];
+#else
 		[@"•" drawInRect: r
 				withFont: f2
-		   lineBreakMode: NSLineBreakByWordWrapping 
+		   lineBreakMode: NSLineBreakByWordWrapping
 			   alignment: NSTextAlignmentCenter];
+#endif
 	}
 	
 

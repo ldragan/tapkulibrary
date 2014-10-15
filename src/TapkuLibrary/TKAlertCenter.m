@@ -74,10 +74,21 @@
 	[[UIColor colorWithWhite:0 alpha:0.8] set];
 	[self _drawRoundRectangleInRect:rect withRadius:10];
 	[[UIColor whiteColor] set];
+    
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+
+	[_messageText drawInRect:_messageRect withAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:14],
+                                                           NSParagraphStyleAttributeName:paragraphStyle}];
+#else
 	[_messageText drawInRect:_messageRect
-			 withFont:[UIFont boldSystemFontOfSize:14]
-		lineBreakMode:NSLineBreakByWordWrapping
-			alignment:NSTextAlignmentCenter];
+                    withFont:[UIFont boldSystemFontOfSize:14]
+               lineBreakMode:NSLineBreakByWordWrapping
+                   alignment:NSTextAlignmentCenter];
+#endif
+
 	
 	CGRect r = CGRectZero;
 	r.origin.y = 15;
@@ -90,9 +101,18 @@
 #pragma mark Setter Methods
 - (void) adjust{
 	
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+
+    CGSize s = [_messageText sizeWithAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:14],
+                                                  NSParagraphStyleAttributeName:paragraphStyle}];
+#else
 	CGSize s = [_messageText sizeWithFont:[UIFont boldSystemFontOfSize:14]
-				 constrainedToSize:CGSizeMake(160,200)
-					 lineBreakMode:NSLineBreakByWordWrapping];
+                        constrainedToSize:CGSizeMake(160,200)
+                            lineBreakMode:NSLineBreakByWordWrapping];
+#endif
 	
 	float imageAdjustment = 0;
 	if (_image) {
